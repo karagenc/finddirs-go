@@ -4,22 +4,27 @@ package finddirs
 
 import "golang.org/x/sys/windows"
 
-func programData() (string, error) {
-	return windows.KnownFolderPath(windows.FOLDERID_ProgramData, 0)
-}
-
-func appData(roaming bool, localLow bool) (string, error) {
-	if roaming {
-		return windows.KnownFolderPath(windows.FOLDERID_RoamingAppData, 0)
-	} else if localLow {
-		return windows.KnownFolderPath(windows.FOLDERID_LocalAppDataLow, 0)
+func knownFolderPath(id *windows.KNOWNFOLDERID) (path string, err error) {
+	flags := []uint32{windows.KF_FLAG_DEFAULT, windows.KF_FLAG_DEFAULT_PATH}
+	for _, flag := range flags {
+		path, err = windows.KnownFolderPath(id, flag|windows.KF_FLAG_DONT_VERIFY)
+		if err == nil {
+			return
+		}
 	}
-	return windows.KnownFolderPath(windows.FOLDERID_LocalAppData, 0)
+	return
 }
 
-func (c *AppConfig) configDirSystem() (string, error) { return programData() }
+func (c *AppConfig) configDirSystem() (string, error) {
+	return knownFolderPath(windows.FOLDERID_ProgramData)
+}
 
-func (c *AppConfig) configDirLocal() (string, error) { return appData(c.UseRoaming, false) }
+func (c *AppConfig) configDirLocal() (string, error) {
+	if c.UseRoaming {
+		return knownFolderPath(windows.FOLDERID_RoamingAppData)
+	}
+	return knownFolderPath(windows.FOLDERID_LocalAppData)
+}
 
 func (c *AppConfig) stateDirSystem() (string, error) { return c.configDirSystem() }
 
