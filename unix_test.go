@@ -3,7 +3,6 @@
 package finddirs
 
 import (
-	"path"
 	"testing"
 
 	"github.com/mitchellh/go-homedir"
@@ -37,9 +36,9 @@ func TestUnixAppDirsLocal(t *testing.T) {
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, path.Join(home, ".config/foo/bar"), d.ConfigDir)
-	require.Equal(t, path.Join(home, ".local/state/foo/bar"), d.StateDir)
-	require.Equal(t, path.Join(home, ".cache/foo/bar"), d.CacheDir)
+	require.Equal(t, home+"/.config/foo/bar", d.ConfigDir)
+	require.Equal(t, home+"/.local/state/foo/bar", d.StateDir)
+	require.Equal(t, home+"/.cache/foo/bar", d.CacheDir)
 }
 
 func TestUnixUserDirs(t *testing.T) {
@@ -48,19 +47,19 @@ func TestUnixUserDirs(t *testing.T) {
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, path.Join(home, "Desktop"), d.Desktop)
-	require.Equal(t, path.Join(home, "Downloads"), d.Downloads)
-	require.Equal(t, path.Join(home, "Documents"), d.Documents)
-	require.Equal(t, path.Join(home, "Pictures"), d.Pictures)
-	require.Equal(t, path.Join(home, "Videos"), d.Videos)
-	require.Equal(t, path.Join(home, "Music"), d.Music)
-	require.Equal(t, path.Join(home, "Templates"), d.Templates)
-	require.Equal(t, path.Join(home, "Public"), d.PublicShare)
+	require.Equal(t, home+"/Desktop", d.Desktop)
+	require.Equal(t, home+"/Downloads", d.Downloads)
+	require.Equal(t, home+"/Documents", d.Documents)
+	require.Equal(t, home+"/Pictures", d.Pictures)
+	require.Equal(t, home+"/Videos", d.Videos)
+	require.Equal(t, home+"/Music", d.Music)
+	require.Equal(t, home+"/Templates", d.Templates)
+	require.Equal(t, home+"/Public", d.PublicShare)
 
 	require.Equal(t,
 		[]string{
-			path.Join(home, ".local/share/fonts"),
-			path.Join(home, ".fonts"),
+			home + "/.local/share/fonts",
+			home + "/.fonts",
 			"/usr/share/fonts",
 			"/usr/local/share/fonts",
 		},
