@@ -109,13 +109,28 @@ func (c *AppConfig) configDir(systemWide bool) (configDir string, err error) {
 
 		// Append `ConfigSubdir` if necessary
 		if c.ConfigSubdir != "" {
-			stateDir, err := c.stateDir(systemWide)
-			if err != nil {
-				return "", err
-			}
-			cacheDir, err := c.cacheDir(systemWide)
-			if err != nil {
-				return "", err
+			var (
+				stateDir string
+				cacheDir string
+			)
+			if systemWide {
+				stateDir, err = c.stateDirSystem()
+				if err != nil {
+					return "", err
+				}
+				cacheDir, err = c.cacheDirSystem()
+				if err != nil {
+					return "", err
+				}
+			} else {
+				stateDir, err = c.stateDirLocal()
+				if err != nil {
+					return "", err
+				}
+				cacheDir, err = c.cacheDirLocal()
+				if err != nil {
+					return "", err
+				}
 			}
 			if configDir == stateDir || configDir == cacheDir {
 				configDir = filepath.Join(configDir, c.ConfigSubdir)
@@ -140,13 +155,28 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 
 		// Append `StateSubdir` if necessary
 		if c.StateSubdir != "" {
-			configDir, err := c.configDir(systemWide)
-			if err != nil {
-				return "", err
-			}
-			cacheDir, err := c.cacheDir(systemWide)
-			if err != nil {
-				return "", err
+			var (
+				configDir string
+				cacheDir  string
+			)
+			if systemWide {
+				configDir, err = c.configDirSystem()
+				if err != nil {
+					return "", err
+				}
+				cacheDir, err = c.cacheDirSystem()
+				if err != nil {
+					return "", err
+				}
+			} else {
+				configDir, err = c.configDirLocal()
+				if err != nil {
+					return "", err
+				}
+				cacheDir, err = c.cacheDirLocal()
+				if err != nil {
+					return "", err
+				}
 			}
 			if stateDir == configDir || stateDir == cacheDir {
 				stateDir = filepath.Join(stateDir, c.StateSubdir)
@@ -171,13 +201,28 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 
 		// Append `CacheSubdir` if necessary
 		if c.CacheSubdir != "" {
-			configDir, err := c.configDir(systemWide)
-			if err != nil {
-				return "", err
-			}
-			stateDir, err := c.stateDir(systemWide)
-			if err != nil {
-				return "", err
+			var (
+				configDir string
+				stateDir  string
+			)
+			if systemWide {
+				configDir, err = c.configDirSystem()
+				if err != nil {
+					return "", err
+				}
+				stateDir, err = c.stateDirSystem()
+				if err != nil {
+					return "", err
+				}
+			} else {
+				configDir, err = c.configDirLocal()
+				if err != nil {
+					return "", err
+				}
+				stateDir, err = c.stateDirLocal()
+				if err != nil {
+					return "", err
+				}
 			}
 			if cacheDir == stateDir || cacheDir == configDir {
 				cacheDir = filepath.Join(configDir, c.CacheSubdir)
