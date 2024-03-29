@@ -22,15 +22,6 @@ type AppConfig struct {
 	// To prevent potential conflicts arising from the same directory being
 	// returned by the `ConfigDir`, `StateDir`, and `CacheDir` methods, this variable can be used.
 	//
-	// If `ConfigSubdir` is non-empty, and config path is the same path as one of the other paths,
-	// `ConfigSubdir` is appended at the end of config path to prevent overlap of files.
-	//
-	// `ConfigSubdir` doesn't have an effect if `Subdir` is empty.
-	ConfigSubdir string
-
-	// To prevent potential conflicts arising from the same directory being
-	// returned by the `ConfigDir`, `StateDir`, and `CacheDir` methods, this variable can be used.
-	//
 	// If `StateSubdir` is non-empty, and state path is the same path as one of the other paths,
 	// `StateSubdir` is appended at the end of state path to prevent overlap of files.
 	//
@@ -106,36 +97,6 @@ func (c *AppConfig) configDir(systemWide bool) (configDir string, err error) {
 
 	if len(c.Subdir) > 0 {
 		configDir = filepath.Join(configDir, c.Subdir)
-
-		// Append `ConfigSubdir` if necessary
-		if c.ConfigSubdir != "" {
-			var (
-				stateDir string
-				cacheDir string
-			)
-			if systemWide {
-				stateDir, err = c.stateDirSystem()
-				if err != nil {
-					return "", err
-				}
-				cacheDir, err = c.cacheDirSystem()
-				if err != nil {
-					return "", err
-				}
-			} else {
-				stateDir, err = c.stateDirLocal()
-				if err != nil {
-					return "", err
-				}
-				cacheDir, err = c.cacheDirLocal()
-				if err != nil {
-					return "", err
-				}
-			}
-			if configDir == stateDir || configDir == cacheDir {
-				configDir = filepath.Join(configDir, c.ConfigSubdir)
-			}
-		}
 	}
 	return filepath.ToSlash(configDir), nil
 }
