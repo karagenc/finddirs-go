@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 )
 
+var ErrOSNotSupportedUserDirs = fmt.Errorf("RetrieveUserDirs doesn't support this operating system")
+
 type UserDirs struct {
 	Desktop     string
 	Downloads   string
