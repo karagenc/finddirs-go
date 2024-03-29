@@ -3,6 +3,7 @@
 package finddirs
 
 import (
+	"path"
 	"path/filepath"
 
 	"golang.org/x/sys/windows"
@@ -55,7 +56,7 @@ func fontsDirs() (dirs []string, err error) {
 	}
 	return []string{
 		dir,
-		filepath.Join(localAppData, "Microsoft/Windows/Fonts"),
+		path.Join(localAppData, "Microsoft/Windows/Fonts"),
 	}, nil
 }
 

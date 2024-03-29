@@ -5,6 +5,7 @@ package finddirs
 import (
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -134,16 +135,16 @@ func fontsDirs() (dirs []string, err error) {
 		return nil, err
 	}
 
-	homeLocalShareFonts := filepath.Join(home, ".local/share/fonts")
+	homeLocalShareFonts := path.Join(home, ".local/share/fonts")
 	xdgDataHome := os.Getenv("XDG_DATA_HOME")
 
 	// Avoid duplicate paths
 	if xdgDataHome != "" && filepath.Clean(xdgDataHome) != homeLocalShareFonts {
-		dirs = append(dirs, filepath.Join(xdgDataHome, "fonts"))
+		dirs = append(dirs, path.Join(xdgDataHome, "fonts"))
 	}
 	dirs = append(dirs,
 		homeLocalShareFonts,
-		filepath.Join(home, ".fonts"),
+		path.Join(home, ".fonts"),
 		"/usr/share/fonts",
 		"/usr/local/share/fonts",
 	)
@@ -193,7 +194,7 @@ func (c *AppConfig) configDirLocal() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return filepath.Join(home, ".config"), nil
+		return path.Join(home, ".config"), nil
 	}
 	return filepath.Clean(dir), nil
 }
@@ -207,7 +208,7 @@ func (c *AppConfig) stateDirLocal() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return filepath.Join(home, ".local/state"), nil
+		return path.Join(home, ".local/state"), nil
 	}
 	return filepath.Clean(dir), nil
 }
@@ -221,7 +222,7 @@ func (c *AppConfig) cacheDirLocal() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return filepath.Join(home, ".cache"), nil
+		return path.Join(home, ".cache"), nil
 	}
 	return filepath.Clean(dir), nil
 }

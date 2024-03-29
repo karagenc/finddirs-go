@@ -3,7 +3,7 @@
 package finddirs
 
 import (
-	"path/filepath"
+	"path"
 	"testing"
 
 	"github.com/mitchellh/go-homedir"
@@ -22,9 +22,9 @@ func TestDarwinAppDirsSystem(t *testing.T) {
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, filepath.Join(home, "/Library/Application Support/foo/bar"), d.ConfigDir)
-	require.Equal(t, filepath.Join(home, "/Library/Application Support/foo/bar/state"), d.StateDir)
-	require.Equal(t, filepath.Join(home, "/Library/Caches/foo/bar"), d.CacheDir)
+	require.Equal(t, path.Join(home, "/Library/Application Support/foo/bar"), d.ConfigDir)
+	require.Equal(t, path.Join(home, "/Library/Application Support/foo/bar/state"), d.StateDir)
+	require.Equal(t, path.Join(home, "/Library/Caches/foo/bar"), d.CacheDir)
 }
 
 func TestDarwinAppDirsLocal(t *testing.T) {
@@ -39,9 +39,9 @@ func TestDarwinAppDirsLocal(t *testing.T) {
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, filepath.Join(home, "Library/Application Support/foo/bar"), d.ConfigDir)
-	require.Equal(t, filepath.Join(home, "Library/Application Support/foo/bar/state"), d.StateDir)
-	require.Equal(t, filepath.Join(home, "Library/Caches/foo/bar"), d.CacheDir)
+	require.Equal(t, path.Join(home, "Library/Application Support/foo/bar"), d.ConfigDir)
+	require.Equal(t, path.Join(home, "Library/Application Support/foo/bar/state"), d.StateDir)
+	require.Equal(t, path.Join(home, "Library/Caches/foo/bar"), d.CacheDir)
 }
 
 func TestDarwinUserDirs(t *testing.T) {
@@ -50,18 +50,18 @@ func TestDarwinUserDirs(t *testing.T) {
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, filepath.Join(home, "Desktop"), d.Desktop)
-	require.Equal(t, filepath.Join(home, "Downloads"), d.Downloads)
-	require.Equal(t, filepath.Join(home, "Documents"), d.Documents)
-	require.Equal(t, filepath.Join(home, "Pictures"), d.Pictures)
-	require.Equal(t, filepath.Join(home, "Movies"), d.Videos)
-	require.Equal(t, filepath.Join(home, "Music"), d.Music)
-	require.Equal(t, filepath.Join(home, "Templates"), d.Templates)
-	require.Equal(t, filepath.Join(home, "Public"), d.PublicShare)
+	require.Equal(t, path.Join(home, "Desktop"), d.Desktop)
+	require.Equal(t, path.Join(home, "Downloads"), d.Downloads)
+	require.Equal(t, path.Join(home, "Documents"), d.Documents)
+	require.Equal(t, path.Join(home, "Pictures"), d.Pictures)
+	require.Equal(t, path.Join(home, "Movies"), d.Videos)
+	require.Equal(t, path.Join(home, "Music"), d.Music)
+	require.Equal(t, path.Join(home, "Templates"), d.Templates)
+	require.Equal(t, path.Join(home, "Public"), d.PublicShare)
 
 	require.Equal(t,
 		[]string{
-			filepath.Join(home, "Library/Fonts"),
+			path.Join(home, "Library/Fonts"),
 			"/Library/Fonts",
 			"/System/Library/Fonts",
 			"/Network/Library/Fonts",

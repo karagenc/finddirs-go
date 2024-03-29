@@ -3,7 +3,7 @@
 package finddirs
 
 import (
-	"path/filepath"
+	"path"
 
 	"github.com/mitchellh/go-homedir"
 )
@@ -13,7 +13,7 @@ func desktopDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Desktop"), nil
+	return path.Join(home, "Desktop"), nil
 }
 
 func downloadsDir() (string, error) {
@@ -21,7 +21,7 @@ func downloadsDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Downloads"), nil
+	return path.Join(home, "Downloads"), nil
 }
 
 func documentsDir() (string, error) {
@@ -29,7 +29,7 @@ func documentsDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Documents"), nil
+	return path.Join(home, "Documents"), nil
 }
 
 func picturesDir() (string, error) {
@@ -37,7 +37,7 @@ func picturesDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Pictures"), nil
+	return path.Join(home, "Pictures"), nil
 }
 
 func videosDir() (string, error) {
@@ -45,7 +45,7 @@ func videosDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Movies"), nil
+	return path.Join(home, "Movies"), nil
 }
 
 func musicDir() (string, error) {
@@ -53,7 +53,7 @@ func musicDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Music"), nil
+	return path.Join(home, "Music"), nil
 }
 
 func fontsDirs() ([]string, error) {
@@ -63,7 +63,7 @@ func fontsDirs() ([]string, error) {
 	}
 
 	return []string{
-		filepath.Join(home, "Library/Fonts"),
+		path.Join(home, "Library/Fonts"),
 		"/Library/Fonts",
 		"/System/Library/Fonts",
 		"/Network/Library/Fonts",
@@ -75,7 +75,7 @@ func templatesDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Templates"), nil
+	return path.Join(home, "Templates"), nil
 }
 
 func publicShareDir() (string, error) {
@@ -83,7 +83,7 @@ func publicShareDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Public"), nil
+	return path.Join(home, "Public"), nil
 }
 
 func (c *AppConfig) configDirSystem() (string, error) { return "/Library/Application Support", nil }
@@ -93,7 +93,7 @@ func (c *AppConfig) configDirLocal() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Library/Application Support"), nil
+	return path.Join(home, "Library/Application Support"), nil
 }
 
 func (c *AppConfig) stateDirSystem() (string, error) { return "/Library/Application Support", nil }
@@ -103,7 +103,7 @@ func (c *AppConfig) stateDirLocal() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Library/Application Support"), nil
+	return path.Join(home, "Library/Application Support"), nil
 }
 
 func (c *AppConfig) cacheDirSystem() (string, error) { return "/Library/Caches", nil }
@@ -113,5 +113,5 @@ func (c *AppConfig) cacheDirLocal() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, "Library/Caches"), nil
+	return path.Join(home, "Library/Caches"), nil
 }

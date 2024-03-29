@@ -2,11 +2,12 @@ package finddirs
 
 import (
 	"fmt"
+	"path"
 	"path/filepath"
 )
 
 type AppConfig struct {
-	// Application directory. If non-empty, appended (filepath.Join'ed) at the end of returned paths.
+	// Application directory. If non-empty, appended (path.Join'ed) at the end of returned paths.
 	Subdir string
 
 	// Defines whether config and state directories should be synchronizable across devices.
@@ -96,7 +97,7 @@ func (c *AppConfig) configDir(systemWide bool) (configDir string, err error) {
 	}
 
 	if len(c.Subdir) > 0 {
-		configDir = filepath.Join(configDir, c.Subdir)
+		configDir = path.Join(configDir, c.Subdir)
 	}
 	return filepath.ToSlash(configDir), nil
 }
@@ -112,7 +113,7 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 	}
 
 	if len(c.Subdir) > 0 {
-		stateDir = filepath.Join(stateDir, c.Subdir)
+		stateDir = path.Join(stateDir, c.Subdir)
 
 		// Append `StateSubdir` if necessary
 		if c.StateSubdir != "" {
@@ -139,8 +140,8 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 					return "", err
 				}
 			}
-			if stateDir == configDir || stateDir == cacheDir {
-				stateDir = filepath.Join(stateDir, c.StateSubdir)
+			if stateDir == path.Join(configDir, c.Subdir) || stateDir == path.Join(cacheDir, c.Subdir) {
+				stateDir = path.Join(stateDir, c.StateSubdir)
 			}
 		}
 	}
@@ -158,7 +159,7 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 	}
 
 	if len(c.Subdir) > 0 {
-		cacheDir = filepath.Join(cacheDir, c.Subdir)
+		cacheDir = path.Join(cacheDir, c.Subdir)
 
 		// Append `CacheSubdir` if necessary
 		if c.CacheSubdir != "" {
@@ -185,8 +186,8 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 					return "", err
 				}
 			}
-			if cacheDir == stateDir || cacheDir == configDir {
-				cacheDir = filepath.Join(configDir, c.CacheSubdir)
+			if cacheDir == path.Join(stateDir, c.Subdir) || cacheDir == path.Join(configDir, c.Subdir) {
+				cacheDir = path.Join(cacheDir, c.CacheSubdir)
 			}
 		}
 	}
