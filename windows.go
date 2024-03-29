@@ -68,21 +68,25 @@ func publicShareDir() (string, error) {
 	return knownFolderPath(windows.FOLDERID_Public)
 }
 
-func (c *AppConfig) configDirSystem() (string, error) {
+func (c *AppConfig) configDirSystem() (string, error) { return programData() }
+
+func (c *AppConfig) configDirLocal() (string, error) { return appData(c.UseRoaming) }
+
+func (c *AppConfig) stateDirSystem() (string, error) { return programData() }
+
+func (c *AppConfig) stateDirLocal() (string, error) { return appData(false) }
+
+func (c *AppConfig) cacheDirSystem() (string, error) { return programData() }
+
+func (c *AppConfig) cacheDirLocal() (string, error) { return appData(false) }
+
+func programData() (string, error) {
 	return knownFolderPath(windows.FOLDERID_ProgramData)
 }
 
-func (c *AppConfig) configDirLocal() (string, error) {
-	if c.UseRoaming {
+func appData(roaming bool) (string, error) {
+	if roaming {
 		return knownFolderPath(windows.FOLDERID_RoamingAppData)
 	}
 	return knownFolderPath(windows.FOLDERID_LocalAppData)
 }
-
-func (c *AppConfig) stateDirSystem() (string, error) { return c.configDirSystem() }
-
-func (c *AppConfig) stateDirLocal() (string, error) { return c.configDirLocal() }
-
-func (c *AppConfig) cacheDirSystem() (string, error) { return c.configDirSystem() }
-
-func (c *AppConfig) cacheDirLocal() (string, error) { return c.configDirLocal() }
