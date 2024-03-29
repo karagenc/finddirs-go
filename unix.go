@@ -17,15 +17,16 @@ var runningOnTermux = func() bool {
 	return err == nil
 }()
 
-func getValueFromXDG(key string) (value string, err error) {
-	// Try running xdg-user-dir first
-	output, err := exec.Command("xdg-user-dir", key).CombinedOutput()
+func getValueFromXDG(key string) (string, error) {
+	// We don't directly parse ~/.config/user-dirs.dirs — it is a bash script.
+	// Instead, we source it, and echo out the particular variable.
+	output, err := exec.Command("bash", "-c", "source ${XDG_CONFIG_HOME:-~/.config}/user-dirs.dirs && echo ${XDG_"+key+"_DIR}").CombinedOutput()
 	if err == nil {
 		return strings.Trim(string(output), "\n"), nil
 	}
-	// We don't directly parse ~/.config/user-dirs.dirs — it is a bash script.
-	// Instead, we source it, and echo out the particular variable.
-	output, err = exec.Command("bash", "-c", "source ${XDG_CONFIG_HOME:-~/.config}/user-dirs.dirs && echo ${XDG_"+key+"_DIR}").CombinedOutput()
+
+	// Try running xdg-user-dir as a fallback
+	output, err = exec.Command("xdg-user-dir", key).CombinedOutput()
 	if err != nil {
 		return "", err
 	}

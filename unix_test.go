@@ -3,6 +3,7 @@
 package finddirs
 
 import (
+	"os/exec"
 	"testing"
 
 	"github.com/mitchellh/go-homedir"
@@ -42,6 +43,9 @@ func TestUnixAppDirsLocal(t *testing.T) {
 }
 
 func TestUnixUserDirs(t *testing.T) {
+	_, err := exec.Command("xdg-user-dirs-update").CombinedOutput()
+	require.NoError(t, err)
+
 	d, err := RetrieveUserDirs()
 	require.NoError(t, err)
 	home, err := homedir.Dir()
