@@ -64,9 +64,9 @@ func fontsDirs() ([]string, error) {
 
 	return []string{
 		filepath.Join(home, "Library/Fonts"),
-		"Library/Fonts",
-		"System/Library/Fonts",
-		"Network/Library/Fonts",
+		"/Library/Fonts",
+		"/System/Library/Fonts",
+		"/Network/Library/Fonts",
 	}, nil
 }
 
