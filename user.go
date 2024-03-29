@@ -1,6 +1,9 @@
 package finddirs
 
-import "path/filepath"
+import (
+	"fmt"
+	"path/filepath"
+)
 
 type UserDirs struct {
 	Desktop     string
@@ -21,42 +24,49 @@ func RetrieveUserDirs() (userDirs *UserDirs, err error) {
 
 	userDirs.Desktop, err = desktopDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Desktop = filepath.ToSlash(userDirs.Desktop)
 
 	userDirs.Downloads, err = downloadsDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Downloads = filepath.ToSlash(userDirs.Downloads)
 
 	userDirs.Documents, err = documentsDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Documents = filepath.ToSlash(userDirs.Documents)
 
 	userDirs.Pictures, err = picturesDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Pictures = filepath.ToSlash(userDirs.Pictures)
 
 	userDirs.Videos, err = videosDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Videos = filepath.ToSlash(userDirs.Videos)
 
 	userDirs.Music, err = musicDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Music = filepath.ToSlash(userDirs.Music)
 
 	userDirs.Fonts, err = fontsDirs()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	for i, font := range userDirs.Fonts {
@@ -65,12 +75,14 @@ func RetrieveUserDirs() (userDirs *UserDirs, err error) {
 
 	userDirs.Templates, err = templatesDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.Templates = filepath.ToSlash(userDirs.Templates)
 
 	userDirs.PublicShare, err = publicShareDir()
 	if err != nil {
+		err = fmt.Errorf("finddirs: %w", err)
 		return
 	}
 	userDirs.PublicShare = filepath.ToSlash(userDirs.PublicShare)
