@@ -2,13 +2,18 @@
 
 package finddirs
 
-import "golang.org/x/sys/windows"
+import (
+	"path/filepath"
+
+	"golang.org/x/sys/windows"
+)
 
 func knownFolderPath(id *windows.KNOWNFOLDERID) (path string, err error) {
 	flags := []uint32{windows.KF_FLAG_DEFAULT, windows.KF_FLAG_DEFAULT_PATH}
 	for _, flag := range flags {
 		path, err = windows.KnownFolderPath(id, flag|windows.KF_FLAG_DONT_VERIFY)
 		if err == nil {
+			path = filepath.Clean(path)
 			return
 		}
 	}

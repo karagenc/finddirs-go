@@ -195,7 +195,7 @@ func (c *AppConfig) configDirLocal() (string, error) {
 		}
 		return filepath.Join(home, ".config"), nil
 	}
-	return dir, nil
+	return filepath.Clean(dir), nil
 }
 
 func (c *AppConfig) stateDirSystem() (string, error) { return "/var/lib", nil }
@@ -209,7 +209,7 @@ func (c *AppConfig) stateDirLocal() (string, error) {
 		}
 		return filepath.Join(home, ".local/state"), nil
 	}
-	return dir, nil
+	return filepath.Clean(dir), nil
 }
 
 func (c *AppConfig) cacheDirSystem() (string, error) { return "/var/cache", nil }
@@ -223,5 +223,5 @@ func (c *AppConfig) cacheDirLocal() (string, error) {
 		}
 		return filepath.Join(home, ".cache"), nil
 	}
-	return dir, nil
+	return filepath.Clean(dir), nil
 }
