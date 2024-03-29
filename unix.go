@@ -26,28 +26,106 @@ func getValueFromXDG(key string) (value string, err error) {
 	return strings.Trim(string(output), "\n"), nil
 }
 
-func desktopDir() (string, error) {
-	return getValueFromXDG("DESKTOP")
+func desktopDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("DESKTOP")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
-func downloadsDir() (string, error) {
-	return getValueFromXDG("DOWNLOADS")
+func downloadsDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("DOWNLOADS")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
-func documentsDir() (string, error) {
-	return getValueFromXDG("DOCUMENTS")
+func documentsDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("DOCUMENTS")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
-func picturesDir() (string, error) {
-	return getValueFromXDG("PICTURES")
+func picturesDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("PICTURES")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
-func videosDir() (string, error) {
-	return getValueFromXDG("VIDEOS")
+func videosDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("VIDEOS")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
-func musicDir() (string, error) {
-	return getValueFromXDG("MUSIC")
+func musicDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("MUSIC")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
 func fontsDirs() (dirs []string, err error) {
@@ -72,12 +150,38 @@ func fontsDirs() (dirs []string, err error) {
 	return
 }
 
-func templatesDir() (string, error) {
-	return getValueFromXDG("TEMPLATES")
+func templatesDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("TEMPLATES")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
-func publicShareDir() (string, error) {
-	return getValueFromXDG("PUBLICSHARE")
+func publicShareDir() (dir string, err error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	dir, err = getValueFromXDG("PUBLICSHARE")
+	if err != nil {
+		return "", err
+	}
+	dir = filepath.Clean(dir)
+	home = filepath.Clean(home)
+	if home == dir {
+		return "", nil
+	}
+	return
 }
 
 func (c *AppConfig) configDirSystem() (string, error) { return "/etc", nil }

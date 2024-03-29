@@ -12,6 +12,8 @@ type UserDirs struct {
 	PublicShare string
 }
 
+// On Linux, XDG directories may be unset. If a directory is unset,
+// its value within `UserDirs` struct will be empty.
 func RetrieveUserDirs() (userDirs *UserDirs, err error) {
 	userDirs = new(UserDirs)
 
