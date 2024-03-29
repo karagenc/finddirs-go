@@ -10,22 +10,36 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestUnixAppDirs(t *testing.T) {
+func TestUnixAppDirsSystem(t *testing.T) {
 	config := &AppConfig{
-		Subdir:       "foo/bar",
-		UseRoaming:   false,
-		ConfigSubdir: "config",
-		StateSubdir:  "state",
-		CacheSubdir:  "cache",
+		Subdir:      "foo/bar",
+		UseRoaming:  false,
+		StateSubdir: "state",
+		CacheSubdir: "cache",
+	}
+	d, err := RetrieveAppDirs(true, config)
+	require.NoError(t, err)
+
+	require.Equal(t, "/etc/foo/bar", d.ConfigDir)
+	require.Equal(t, "/var/lib/foo/bar", d.StateDir)
+	require.Equal(t, "/var/cache/foo/bar", d.CacheDir)
+}
+
+func TestUnixAppDirsLocal(t *testing.T) {
+	config := &AppConfig{
+		Subdir:      "foo/bar",
+		UseRoaming:  false,
+		StateSubdir: "state",
+		CacheSubdir: "cache",
 	}
 	d, err := RetrieveAppDirs(false, config)
 	require.NoError(t, err)
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, d.ConfigDir, filepath.Join(home, ".config/foo/bar"))
-	require.Equal(t, d.StateDir, filepath.Join(home, ".local/state/foo/bar"))
-	require.Equal(t, d.CacheDir, filepath.Join(home, ".cache/foo/bar"))
+	require.Equal(t, filepath.Join(home, ".config/foo/bar"), d.ConfigDir)
+	require.Equal(t, filepath.Join(home, ".local/state/foo/bar"), d.StateDir)
+	require.Equal(t, filepath.Join(home, ".cache/foo/bar"), d.CacheDir)
 }
 
 func TestUnixUserDirs(t *testing.T) {
@@ -34,14 +48,14 @@ func TestUnixUserDirs(t *testing.T) {
 	home, err := homedir.Dir()
 	require.NoError(t, err)
 
-	require.Equal(t, d.Desktop, filepath.Join(home, "Desktop"))
-	require.Equal(t, d.Downloads, filepath.Join(home, "Downloads"))
-	require.Equal(t, d.Documents, filepath.Join(home, "Documents"))
-	require.Equal(t, d.Pictures, filepath.Join(home, "Pictures"))
-	require.Equal(t, d.Videos, filepath.Join(home, "Videos"))
-	require.Equal(t, d.Music, filepath.Join(home, "Music"))
-	require.Equal(t, d.Templates, filepath.Join(home, "Templates"))
-	require.Equal(t, d.PublicShare, filepath.Join(home, "Public"))
+	require.Equal(t, filepath.Join(home, "Desktop"), d.Desktop)
+	require.Equal(t, filepath.Join(home, "Downloads"), d.Downloads)
+	require.Equal(t, filepath.Join(home, "Documents"), d.Documents)
+	require.Equal(t, filepath.Join(home, "Pictures"), d.Pictures)
+	require.Equal(t, filepath.Join(home, "Videos"), d.Videos)
+	require.Equal(t, filepath.Join(home, "Music"), d.Music)
+	require.Equal(t, filepath.Join(home, "Templates"), d.Templates)
+	require.Equal(t, filepath.Join(home, "Public"), d.PublicShare)
 
 	require.Equal(t,
 		[]string{
