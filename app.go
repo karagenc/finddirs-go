@@ -12,8 +12,7 @@ type AppConfig struct {
 
 	// Defines whether config and state directories should be synchronizable across devices.
 	//
-	// If true, %USERPROFILE%\AppData\Roaming is used instead of
-	// %USERPROFILE%\AppData\Local on Windows.
+	// If true, instead of %USERPROFILE%\AppData\Local, %USERPROFILE%\AppData\Roaming is used (only with `ConfigDir`).
 	// This doesn't have an effect on other systems.
 	//
 	// If you don't know what you're doing, just leave this as false.
