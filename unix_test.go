@@ -10,6 +10,24 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestUnixAppDirs(t *testing.T) {
+	config := &AppConfig{
+		Subdir:       "foo/bar",
+		UseRoaming:   false,
+		ConfigSubdir: "config",
+		StateSubdir:  "state",
+		CacheSubdir:  "cache",
+	}
+	d, err := RetrieveAppDirs(false, config)
+	require.NoError(t, err)
+	home, err := homedir.Dir()
+	require.NoError(t, err)
+
+	require.Equal(t, d.ConfigDir, filepath.Join(home, ".config/foo/bar"))
+	require.Equal(t, d.StateDir, filepath.Join(home, ".local/state/foo/bar"))
+	require.Equal(t, d.CacheDir, filepath.Join(home, ".cache/foo/bar"))
+}
+
 func TestUnixUserDirs(t *testing.T) {
 	d, err := RetrieveUserDirs()
 	require.NoError(t, err)
