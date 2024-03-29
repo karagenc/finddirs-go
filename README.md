@@ -6,22 +6,23 @@ This is a Go package for retrieving common directories found across all operatin
 
 ### Application Directories
 
-| Directory                         | Unix [1]         | Windows [2]                                | macOS                           | Plan 9        |
-| --------------------------------- | ---------------- | ------------------------------------------ | ------------------------------- | ------------- |
-| Config directory (system-wide)    | `/etc`           | `C:\ProgramData`                           | `/Library/Preferences`          | `/lib`        |
-| Config directory (local)          | `~/.config`      | `C:\<user>\AppData\<Local or Roaming>` [3] | `~/Library/Preferences`         | `~/lib`       |
-| State directory (system-wide) [4] | `/var/lib`       | `C:\ProgramData`                           | `/Library/Application Support`  | `/lib`        |
-| State directory (local) [4]       | `~/.local/state` | `C:\<user>\AppData\Local`                  | `~/Library/Application Support` | `~/lib`       |
-| Cache directory (system-wide)     | `/var/cache`     | `C:\ProgramData`                           | `/Library/Caches`               | `/lib/cache`  |
-| Cache directory (local)           | `~/.cache`       | `C:\<user>\AppData\Local`                  | `~/Library/Caches`              | `~/lib/cache` |
+| Directory                      | Unix [1][2]      | Windows [3]                                | macOS                           | Plan 9        |
+| ------------------------------ | ---------------- | ------------------------------------------ | ------------------------------- | ------------- |
+| Config directory (system-wide) | `/etc`           | `C:\ProgramData`                           | `/Library/Preferences`          | `/lib`        |
+| Config directory (local)       | `~/.config`      | `C:\<user>\AppData\<Local or Roaming>` [4] | `~/Library/Preferences`         | `~/lib`       |
+| State directory (system-wide)  | `/var/lib`       | `C:\ProgramData`                           | `/Library/Application Support`  | `/lib`        |
+| State directory (local)        | `~/.local/state` | `C:\<user>\AppData\Local`                  | `~/Library/Application Support` | `~/lib`       |
+| Cache directory (system-wide)  | `/var/cache`     | `C:\ProgramData`                           | `/Library/Caches`               | `/lib/cache`  |
+| Cache directory (local)        | `~/.cache`       | `C:\<user>\AppData\Local`                  | `~/Library/Caches`              | `~/lib/cache` |
 
 1. On Unix based systems, XDG environment variables `$XDG_CONFIG_HOME`, `$XDG_STATE_HOME`, and `$XDG_CACHE_HOME` are first tried for paths `~/.config`, `~/.local/state`, and `~/.cache` respectively. If the particular XDG environment variable is set, it is used instead.
-2. On Windows, [KNOWNFOLDERID constants](https://learn.microsoft.com/en-us/windows/win32/shell/knownfolderid) are used.
-3. Usage of `AppData\Local` or `AppData\Roaming` depends on whether `UseRoaming` is set to true in `Config` struct.
+2. If Termux is detected on Android, system-wide directories will be under `~/../usr` (of course, as an absolute path).
+3. On Windows, [KNOWNFOLDERID constants](https://learn.microsoft.com/en-us/windows/win32/shell/knownfolderid) are used.
+4. Usage of `AppData\Local` or `AppData\Roaming` depends on whether `UseRoaming` is set to true in `Config` struct.
 
 ### User Directories
 
-| Directory   | Unix [1], macOS, and Windows (Also see [2])                                                                           |
+| Directory   | Unix [1], macOS, and Windows (Also see [2] and [3])                                                                   |
 | ----------- | --------------------------------------------------------------------------------------------------------------------- |
 | Desktop     | `~/Desktop`                                                                                                           |
 | Downloads   | `~/Downloads`                                                                                                         |
@@ -37,6 +38,7 @@ This is a Go package for retrieving common directories found across all operatin
 
 1. On Unix based systems, entries in `user-dirs.dirs` are read. If `user-dirs.dirs` cannot be found, or it's malformed, `RetrieveUserDirs` returns with error.
 2. Plan 9 is not supported. `RetrieveUserDirs` on Plan 9 system will return an error.
+3. If Termux is detected on Android, the Desktop, Templates, Fonts, and PublicShare directories will be empty, as they don't exist on the this platform.
 
 ## Usage
 

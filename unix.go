@@ -12,6 +12,11 @@ import (
 	"github.com/mitchellh/go-homedir"
 )
 
+var runningOnTermux = func() bool {
+	_, err := exec.LookPath("termux-setup-storage")
+	return err == nil
+}()
+
 func getValueFromXDG(key string) (value string, err error) {
 	// Try running xdg-user-dir first
 	output, err := exec.Command("xdg-user-dir", key).CombinedOutput()
@@ -27,7 +32,19 @@ func getValueFromXDG(key string) (value string, err error) {
 	return strings.Trim(string(output), "\n"), nil
 }
 
+func readTermuxSymlink(subdir string) (string, error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	return os.Readlink(filepath.Join(home, "storage", subdir))
+}
+
 func desktopDir() (dir string, err error) {
+	if runningOnTermux {
+		return "", nil
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -45,6 +62,10 @@ func desktopDir() (dir string, err error) {
 }
 
 func downloadsDir() (dir string, err error) {
+	if runningOnTermux {
+		return readTermuxSymlink("downloads")
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -62,6 +83,14 @@ func downloadsDir() (dir string, err error) {
 }
 
 func documentsDir() (dir string, err error) {
+	if runningOnTermux {
+		shared, err := readTermuxSymlink("shared")
+		if err != nil {
+			return "", err
+		}
+		return path.Join(shared, "Documents"), nil
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -79,6 +108,10 @@ func documentsDir() (dir string, err error) {
 }
 
 func picturesDir() (dir string, err error) {
+	if runningOnTermux {
+		return readTermuxSymlink("pictures")
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -96,6 +129,10 @@ func picturesDir() (dir string, err error) {
 }
 
 func videosDir() (dir string, err error) {
+	if runningOnTermux {
+		return readTermuxSymlink("movies")
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -113,6 +150,10 @@ func videosDir() (dir string, err error) {
 }
 
 func musicDir() (dir string, err error) {
+	if runningOnTermux {
+		return readTermuxSymlink("music")
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -130,6 +171,10 @@ func musicDir() (dir string, err error) {
 }
 
 func fontsDirs() (dirs []string, err error) {
+	if runningOnTermux {
+		return nil, nil
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return nil, err
@@ -152,6 +197,10 @@ func fontsDirs() (dirs []string, err error) {
 }
 
 func templatesDir() (dir string, err error) {
+	if runningOnTermux {
+		return "", nil
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -169,6 +218,10 @@ func templatesDir() (dir string, err error) {
 }
 
 func publicShareDir() (dir string, err error) {
+	if runningOnTermux {
+		return "", nil
+	}
+
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -185,7 +238,16 @@ func publicShareDir() (dir string, err error) {
 	return
 }
 
-func (c *AppConfig) configDirSystem() (string, error) { return "/etc", nil }
+func (c *AppConfig) configDirSystem() (string, error) {
+	if !runningOnTermux {
+		return "/etc", nil
+	}
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	return path.Join(home, "../usr/etc"), nil
+}
 
 func (c *AppConfig) configDirLocal() (string, error) {
 	dir := os.Getenv("XDG_CONFIG_HOME")
@@ -199,7 +261,16 @@ func (c *AppConfig) configDirLocal() (string, error) {
 	return filepath.Clean(dir), nil
 }
 
-func (c *AppConfig) stateDirSystem() (string, error) { return "/var/lib", nil }
+func (c *AppConfig) stateDirSystem() (string, error) {
+	if !runningOnTermux {
+		return "/var/lib", nil
+	}
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	return path.Join(home, "../usr/var/lib"), nil
+}
 
 func (c *AppConfig) stateDirLocal() (string, error) {
 	dir := os.Getenv("XDG_STATE_HOME")
@@ -213,7 +284,16 @@ func (c *AppConfig) stateDirLocal() (string, error) {
 	return filepath.Clean(dir), nil
 }
 
-func (c *AppConfig) cacheDirSystem() (string, error) { return "/var/cache", nil }
+func (c *AppConfig) cacheDirSystem() (string, error) {
+	if !runningOnTermux {
+		return "/var/cache", nil
+	}
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	return path.Join(home, "../usr/var/cache"), nil
+}
 
 func (c *AppConfig) cacheDirLocal() (string, error) {
 	dir := os.Getenv("XDG_CACHE_HOME")
