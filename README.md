@@ -36,7 +36,7 @@ This is a Go package for retrieving common directories found across all operatin
 |             | `C:/WINDOWS/Fonts` and `C:/Users/<USER>/AppData/Local/Microsoft/Windows/Fonts` on Windows                             |
 | PublicShare | `~/Public` on Linux and macOS, `C:\Users\Public` on Windows                                                           |
 
-1. On Unix based systems, entries in `user-dirs.dirs` are read. If `user-dirs.dirs` cannot be found, or it's malformed, `RetrieveUserDirs` returns with error.
+1. On Unix based systems, entries in `user-dirs.dirs` are read. If `user-dirs.dirs` cannot be found, or it's malformed, `RetrieveUserDirs` returns with error. If an entry is `$HOME/` (that means, it is empty), it is set to an empty string (`""`), and no error is returned. On Unix, check for empty directories.
 2. Plan 9 is not supported. `RetrieveUserDirs` on Plan 9 system will return an error.
 3. If Termux is detected on Android, the Desktop, Templates, Fonts, and PublicShare directories will be empty, as they don't exist on the this platform.
 

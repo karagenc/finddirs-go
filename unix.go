@@ -70,7 +70,7 @@ func downloadsDir() (dir string, err error) {
 	if err != nil {
 		return "", err
 	}
-	dir, err = getValueFromXDG("DOWNLOADS")
+	dir, err = getValueFromXDG("DOWNLOAD")
 	if err != nil {
 		return "", err
 	}
