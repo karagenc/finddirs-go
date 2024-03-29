@@ -15,6 +15,53 @@ func knownFolderPath(id *windows.KNOWNFOLDERID) (path string, err error) {
 	return
 }
 
+func desktopDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Desktop)
+}
+
+func downloadsDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Downloads)
+}
+
+func documentsDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Documents)
+}
+
+func picturesDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Pictures)
+}
+
+func videosDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Videos)
+}
+
+func musicDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Music)
+}
+
+func fontsDirs() (dirs []string, err error) {
+	dir, err := knownFolderPath(windows.FOLDERID_Fonts)
+	if err != nil {
+		return nil, err
+	}
+	localAppData, err := knownFolderPath(windows.FOLDERID_LocalAppData)
+	if err != nil {
+		return nil, err
+	}
+	return []string{
+		dir,
+		filepath.Join(localAppData, "Microsoft/Windows/Fonts"),
+	}, nil
+}
+
+func templatesDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Templates)
+}
+
+func publicShareDir() (string, error) {
+	return knownFolderPath(windows.FOLDERID_Public)
+}
+
 func (c *AppConfig) configDirSystem() (string, error) {
 	return knownFolderPath(windows.FOLDERID_ProgramData)
 }
