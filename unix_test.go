@@ -40,6 +40,30 @@ func TestUnixAppDirsLocal(t *testing.T) {
 	require.Equal(t, home+"/.cache/foo/bar", d.CacheDir)
 }
 
+func TestUnixAppDirsSubdirUnix(t *testing.T) {
+	config := &AppConfig{
+		Subdir:      "foo/bar",
+		SubdirUnix:  "zoo/zar",
+		StateSubdir: "state",
+		CacheSubdir: "cache",
+	}
+	d, err := RetrieveAppDirs(true, config)
+	require.NoError(t, err)
+
+	require.Equal(t, "/etc/zoo/zar", d.ConfigDir)
+	require.Equal(t, "/var/lib/zoo/zar", d.StateDir)
+	require.Equal(t, "/var/cache/zoo/zar", d.CacheDir)
+
+	d, err = RetrieveAppDirs(false, config)
+	require.NoError(t, err)
+	home, err := homedir.Dir()
+	require.NoError(t, err)
+
+	require.Equal(t, home+"/.config/zoo/zar", d.ConfigDir)
+	require.Equal(t, home+"/.local/state/zoo/zar", d.StateDir)
+	require.Equal(t, home+"/.cache/zoo/zar", d.CacheDir)
+}
+
 func TestUnixUserDirs(t *testing.T) {
 	_, err := exec.Command("xdg-user-dirs-update").CombinedOutput()
 	require.NoError(t, err)

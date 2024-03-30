@@ -43,6 +43,32 @@ func TestWindowsAppDirsLocal(t *testing.T) {
 	require.Equal(t, home+"/AppData/Local/foo/bar/cache", d.CacheDir)
 }
 
+func TestWindowsAppDirsSubdirWindows(t *testing.T) {
+	config := &AppConfig{
+		Subdir:        "foo/bar",
+		SubdirWindows: "zoo/zar",
+		UseRoaming:    false,
+		StateSubdir:   "state",
+		CacheSubdir:   "cache",
+	}
+	d, err := RetrieveAppDirs(true, config)
+	require.NoError(t, err)
+
+	require.Equal(t, "C:/ProgramData/zoo/zar", d.ConfigDir)
+	require.Equal(t, "C:/ProgramData/zoo/zar/state", d.StateDir)
+	require.Equal(t, "C:/ProgramData/zoo/zar/cache", d.CacheDir)
+
+	d, err = RetrieveAppDirs(false, config)
+	require.NoError(t, err)
+	home, err := homedir.Dir()
+	require.NoError(t, err)
+	home = filepath.ToSlash(home)
+
+	require.Equal(t, home+"/AppData/Local/zoo/zar", d.ConfigDir)
+	require.Equal(t, home+"/AppData/Local/zoo/zar/state", d.StateDir)
+	require.Equal(t, home+"/AppData/Local/zoo/zar/cache", d.CacheDir)
+}
+
 func TestWindowsAppDirsLocalRoaming(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",

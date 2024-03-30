@@ -39,6 +39,30 @@ func TestDarwinAppDirsLocal(t *testing.T) {
 	require.Equal(t, home+"/Library/Caches/foo/bar", d.CacheDir)
 }
 
+func TestDarwinAppDirsSubdirMacOSIOS(t *testing.T) {
+	config := &AppConfig{
+		Subdir:         "foo/bar",
+		SubdirMacOSIOS: "zoo/zar",
+		StateSubdir:    "state",
+		CacheSubdir:    "cache",
+	}
+	d, err := RetrieveAppDirs(true, config)
+	require.NoError(t, err)
+
+	require.Equal(t, "/Library/Application Support/zoo/zar", d.ConfigDir)
+	require.Equal(t, "/Library/Application Support/zoo/zar/state", d.StateDir)
+	require.Equal(t, "/Library/Caches/zoo/zar", d.CacheDir)
+
+	d, err = RetrieveAppDirs(false, config)
+	require.NoError(t, err)
+	home, err := homedir.Dir()
+	require.NoError(t, err)
+
+	require.Equal(t, home+"/Library/Application Support/zoo/zar", d.ConfigDir)
+	require.Equal(t, home+"/Library/Application Support/zoo/zar/state", d.StateDir)
+	require.Equal(t, home+"/Library/Caches/zoo/zar", d.CacheDir)
+}
+
 func TestDarwinUserDirs(t *testing.T) {
 	d, err := RetrieveUserDirs()
 	require.NoError(t, err)
