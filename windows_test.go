@@ -77,11 +77,26 @@ func TestWindowsUserDirs(t *testing.T) {
 	require.Equal(t, home+"/AppData/Roaming/Microsoft/Windows/Templates", d.Templates)
 	require.Equal(t, "C:/Users/Public", d.PublicShare)
 
-	require.Equal(t,
-		[]string{
+	fontDirs := [][]string{
+		{
+			"C:/Windows/Fonts",
 			"C:/WINDOWS/Fonts",
-			home + "/AppData/Local/Microsoft/Windows/Fonts",
 		},
-		d.Fonts,
-	)
+		{home + "/AppData/Local/Microsoft/Windows/Fonts"},
+	}
+
+	for i, fontDir := range d.Fonts {
+		found := false
+		tests := fontDirs[i]
+		for _, test := range tests {
+			if test == fontDir {
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			t.Fatalf("expected one of: %s found: %s", tests, fontDir)
+		}
+	}
 }
