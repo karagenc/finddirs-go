@@ -10,6 +10,15 @@ type AppConfig struct {
 	// Application directory. If non-empty, appended (path.Join'ed) at the end of returned paths.
 	Subdir string
 
+	// Application directory for macOS and iOS. If non-empty, used instead of `Subdir` on macOS & iOS and appended (path.Join'ed) at the end of returned paths.
+	SubdirMacOSIOS string
+	// Application directory for Windows. If non-empty, used instead of `Subdir` on Windows and appended (path.Join'ed) at the end of returned paths.
+	SubdirWindows string
+	// Application directory for Unix. If non-empty, used instead of `Subdir` on Unix based systems and appended (path.Join'ed) at the end of returned paths.
+	SubdirUnix string
+	// Application directory for Plan 9. If non-empty, used instead of `Subdir` on Plan 9 and appended (path.Join'ed) at the end of returned paths.
+	SubdirPlan9 string
+
 	// Defines whether config and state directories should be synchronizable across devices.
 	//
 	// If true, instead of %USERPROFILE%\AppData\Local, %USERPROFILE%\AppData\Roaming is used (only with `ConfigDir`).
@@ -85,6 +94,14 @@ func RetrieveAppDirs(systemWide bool, config *AppConfig) (appDirs *AppDirs, err 
 	return
 }
 
+func (c *AppConfig) subdir() string {
+	subdir := c.subdirPlatformSpecific()
+	if subdir != "" {
+		return subdir
+	}
+	return c.Subdir
+}
+
 func (c *AppConfig) configDir(systemWide bool) (configDir string, err error) {
 	if systemWide {
 		configDir, err = c.configDirSystem()
@@ -95,8 +112,9 @@ func (c *AppConfig) configDir(systemWide bool) (configDir string, err error) {
 		return
 	}
 
-	if len(c.Subdir) > 0 {
-		configDir = path.Join(configDir, c.Subdir)
+	subdir := c.subdir()
+	if len(subdir) > 0 {
+		configDir = path.Join(configDir, subdir)
 	}
 	return filepath.ToSlash(configDir), nil
 }
@@ -111,8 +129,9 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 		return
 	}
 
-	if len(c.Subdir) > 0 {
-		stateDir = path.Join(stateDir, c.Subdir)
+	subdir := c.subdir()
+	if len(subdir) > 0 {
+		stateDir = path.Join(stateDir, subdir)
 
 		// Append `StateSubdir` if necessary
 		if c.StateSubdir != "" {
@@ -139,7 +158,7 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 					return "", err
 				}
 			}
-			if stateDir == path.Join(configDir, c.Subdir) || stateDir == path.Join(cacheDir, c.Subdir) {
+			if stateDir == path.Join(configDir, subdir) || stateDir == path.Join(cacheDir, subdir) {
 				stateDir = path.Join(stateDir, c.StateSubdir)
 			}
 		}
@@ -157,8 +176,9 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 		return
 	}
 
-	if len(c.Subdir) > 0 {
-		cacheDir = path.Join(cacheDir, c.Subdir)
+	subdir := c.subdir()
+	if len(subdir) > 0 {
+		cacheDir = path.Join(cacheDir, subdir)
 
 		// Append `CacheSubdir` if necessary
 		if c.CacheSubdir != "" {
@@ -185,7 +205,7 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 					return "", err
 				}
 			}
-			if cacheDir == path.Join(stateDir, c.Subdir) || cacheDir == path.Join(configDir, c.Subdir) {
+			if cacheDir == path.Join(stateDir, subdir) || cacheDir == path.Join(configDir, subdir) {
 				cacheDir = path.Join(cacheDir, c.CacheSubdir)
 			}
 		}

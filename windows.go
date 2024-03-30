@@ -68,6 +68,8 @@ func publicShareDir() (string, error) {
 	return knownFolderPath(windows.FOLDERID_Public)
 }
 
+func (c *AppConfig) subdirPlatformSpecific() string { return c.SubdirWindows }
+
 func (c *AppConfig) configDirSystem() (string, error) { return programData() }
 
 func (c *AppConfig) configDirLocal() (string, error) { return appData(c.UseRoaming) }

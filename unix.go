@@ -239,6 +239,8 @@ func publicShareDir() (dir string, err error) {
 	return
 }
 
+func (c *AppConfig) subdirPlatformSpecific() string { return c.SubdirUnix }
+
 func (c *AppConfig) configDirSystem() (string, error) {
 	if !runningOnTermux {
 		return "/etc", nil

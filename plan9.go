@@ -45,6 +45,8 @@ func publicShareDir() (string, error) {
 	return "", ErrOSNotSupportedUserDirs
 }
 
+func (c *AppConfig) subdirPlatformSpecific() string { return c.SubdirPlan9 }
+
 func (c *AppConfig) configDirSystem() (string, error) { return "/lib", nil }
 
 func (c *AppConfig) configDirLocal() (string, error) {
