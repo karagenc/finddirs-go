@@ -1,12 +1,12 @@
 # finddirs
 
-This is a Go package for retrieving common directories found across all operating systems. This package is tested on Linux, macOS, Windows, and Android. However, as I have not tested on other operating systems, I cannot guarantee it will run as expected on those, but it should work.  
+This is a Go package for retrieving common directories found across all operating systems.
 
 ## Locations
 
 ### Application Directories
 
-| Directory                      | Unix [1][2]      | Windows [3]                                | macOS                           | Plan 9        |
+| Directory                      | Unix [1][2]      | Windows [3]                                | macOS & iOS [5]                 | Plan 9        |
 | ------------------------------ | ---------------- | ------------------------------------------ | ------------------------------- | ------------- |
 | Config directory (system-wide) | `/etc`           | `C:\ProgramData`                           | `/Library/Preferences`          | `/lib`        |
 | Config directory (local)       | `~/.config`      | `C:\<user>\AppData\<Local or Roaming>` [4] | `~/Library/Preferences`         | `~/lib`       |
@@ -19,10 +19,11 @@ This is a Go package for retrieving common directories found across all operatin
 2. If Termux is detected on Android, system-wide directories will be under `~/../usr` (of course, as an absolute path).
 3. On Windows, [KNOWNFOLDERID constants](https://learn.microsoft.com/en-us/windows/win32/shell/knownfolderid) are used.
 4. Usage of `AppData\Local` or `AppData\Roaming` depends on whether `UseRoaming` is set to true in `Config` struct.
+5. System-wide directories are not supported on iOS — iOS apps are inside a sandbox, therefore system-wide directories cannot be accessed. Calling `RetrieveAppDirs` with `systemWide` argument set to true will result with an error.
 
 ### User Directories
 
-| Directory   | Unix [1], macOS, and Windows (Also see [2] and [3])                                                                   |
+| Directory   | Unix [1], macOS, and Windows (Also See [2], [3], and [4])                                                             |
 | ----------- | --------------------------------------------------------------------------------------------------------------------- |
 | Desktop     | `~/Desktop`                                                                                                           |
 | Downloads   | `~/Downloads`                                                                                                         |
@@ -37,8 +38,9 @@ This is a Go package for retrieving common directories found across all operatin
 | PublicShare | `~/Public` on Linux and macOS, `C:\Users\Public` on Windows                                                           |
 
 1. On Unix based systems, entries in `user-dirs.dirs` are read. If `user-dirs.dirs` cannot be found, or it's malformed, `RetrieveUserDirs` returns with error. If an entry is `$HOME/` (that means, it is empty), it is set to an empty string (`""`), and no error is returned. On Unix, check for empty directories.
-2. Plan 9 is not supported. `RetrieveUserDirs` on Plan 9 system will return an error.
-3. If Termux is detected on Android, the Desktop, Templates, Fonts, and PublicShare directories will be empty, as they don't exist on the this platform.
+2. Plan 9 is not supported. `RetrieveUserDirs` on a Plan 9 system will return an error.
+3. If Termux is detected on Android, the Desktop, Templates, Fonts, and PublicShare directories will be empty, as they don't exist on the that platform.
+4. iOS is not supported. `RetrieveUserDirs` on an iOS system will return an error.
 
 ## Usage
 
@@ -49,6 +51,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/tomruk/finddirs-go"
 )
 

@@ -1,14 +1,20 @@
-//go:build darwin
+//go:build darwin || ios
 
 package finddirs
 
 import (
 	"path"
+	"runtime"
 
 	"github.com/mitchellh/go-homedir"
 )
 
+var isIOS = runtime.GOOS == "ios"
+
 func desktopDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -17,6 +23,9 @@ func desktopDir() (string, error) {
 }
 
 func downloadsDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -25,6 +34,9 @@ func downloadsDir() (string, error) {
 }
 
 func documentsDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -33,6 +45,9 @@ func documentsDir() (string, error) {
 }
 
 func picturesDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -41,6 +56,9 @@ func picturesDir() (string, error) {
 }
 
 func videosDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -49,6 +67,9 @@ func videosDir() (string, error) {
 }
 
 func musicDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -57,6 +78,9 @@ func musicDir() (string, error) {
 }
 
 func fontsDirs() ([]string, error) {
+	if isIOS {
+		return nil, ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return nil, err
@@ -71,6 +95,9 @@ func fontsDirs() ([]string, error) {
 }
 
 func templatesDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -79,6 +106,9 @@ func templatesDir() (string, error) {
 }
 
 func publicShareDir() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedUserDirs
+	}
 	home, err := homedir.Dir()
 	if err != nil {
 		return "", err
@@ -86,7 +116,12 @@ func publicShareDir() (string, error) {
 	return path.Join(home, "Public"), nil
 }
 
-func (c *AppConfig) configDirSystem() (string, error) { return "/Library/Application Support", nil }
+func (c *AppConfig) configDirSystem() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedAppDirsSystemIOS
+	}
+	return "/Library/Application Support", nil
+}
 
 func (c *AppConfig) configDirLocal() (string, error) {
 	home, err := homedir.Dir()
@@ -96,7 +131,12 @@ func (c *AppConfig) configDirLocal() (string, error) {
 	return path.Join(home, "Library/Application Support"), nil
 }
 
-func (c *AppConfig) stateDirSystem() (string, error) { return "/Library/Application Support", nil }
+func (c *AppConfig) stateDirSystem() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedAppDirsSystemIOS
+	}
+	return "/Library/Application Support", nil
+}
 
 func (c *AppConfig) stateDirLocal() (string, error) {
 	home, err := homedir.Dir()
@@ -106,7 +146,12 @@ func (c *AppConfig) stateDirLocal() (string, error) {
 	return path.Join(home, "Library/Application Support"), nil
 }
 
-func (c *AppConfig) cacheDirSystem() (string, error) { return "/Library/Caches", nil }
+func (c *AppConfig) cacheDirSystem() (string, error) {
+	if isIOS {
+		return "", ErrOSNotSupportedAppDirsSystemIOS
+	}
+	return "/Library/Caches", nil
+}
 
 func (c *AppConfig) cacheDirLocal() (string, error) {
 	home, err := homedir.Dir()
