@@ -12,7 +12,6 @@ import (
 func TestDarwinAppDirsSystem(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		UseRoaming:  false,
 		StateSubdir: "state",
 		CacheSubdir: "cache",
 	}
@@ -27,7 +26,6 @@ func TestDarwinAppDirsSystem(t *testing.T) {
 func TestDarwinAppDirsLocal(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		UseRoaming:  false,
 		StateSubdir: "state",
 		CacheSubdir: "cache",
 	}

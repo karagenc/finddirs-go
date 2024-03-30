@@ -13,7 +13,6 @@ import (
 func TestUnixAppDirsSystem(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		UseRoaming:  false,
 		StateSubdir: "state",
 		CacheSubdir: "cache",
 	}
@@ -28,7 +27,6 @@ func TestUnixAppDirsSystem(t *testing.T) {
 func TestUnixAppDirsLocal(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		UseRoaming:  false,
 		StateSubdir: "state",
 		CacheSubdir: "cache",
 	}
