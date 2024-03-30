@@ -31,20 +31,20 @@ type AppConfig struct {
 	// To prevent potential conflicts arising from the same directory being
 	// returned by the `ConfigDir`, `StateDir`, and `CacheDir` methods, this variable can be used.
 	//
-	// If `StateSubdir` is non-empty, and state path is the same path as one of the other paths,
-	// `StateSubdir` is appended at the end of state path to prevent overlap of files.
+	// If `SubdirState` is non-empty, and state path is the same path as one of the other paths,
+	// `SubdirState` is appended at the end of state path to prevent overlap of files.
 	//
-	// `StateSubdir` doesn't have an effect if `Subdir` is empty.
-	StateSubdir string
+	// `SubdirState` doesn't have an effect if `Subdir` is empty.
+	SubdirState string
 
 	// To prevent potential conflicts arising from the same directory being
 	// returned by the `ConfigDir`, `StateDir`, and `CacheDir` methods, this variable can be used.
 	//
-	// If `CacheSubdir` is non-empty, and cache path is the same path as one of the other paths,
-	// `CacheSubdir` is appended at the end of cache path to prevent overlap of files.
+	// If `SubdirCache` is non-empty, and cache path is the same path as one of the other paths,
+	// `SubdirCache` is appended at the end of cache path to prevent overlap of files.
 	//
-	// `CacheSubdir` doesn't have an effect if `Subdir` is empty.
-	CacheSubdir string
+	// `SubdirCache` doesn't have an effect if `Subdir` is empty.
+	SubdirCache string
 }
 
 type AppDirs struct {
@@ -133,8 +133,8 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 	if len(subdir) > 0 {
 		stateDir = path.Join(stateDir, subdir)
 
-		// Append `StateSubdir` if necessary
-		if c.StateSubdir != "" {
+		// Append `SubdirState` if necessary
+		if c.SubdirState != "" {
 			var (
 				configDir string
 				cacheDir  string
@@ -159,7 +159,7 @@ func (c *AppConfig) stateDir(systemWide bool) (stateDir string, err error) {
 				}
 			}
 			if stateDir == path.Join(configDir, subdir) || stateDir == path.Join(cacheDir, subdir) {
-				stateDir = path.Join(stateDir, c.StateSubdir)
+				stateDir = path.Join(stateDir, c.SubdirState)
 			}
 		}
 	}
@@ -180,8 +180,8 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 	if len(subdir) > 0 {
 		cacheDir = path.Join(cacheDir, subdir)
 
-		// Append `CacheSubdir` if necessary
-		if c.CacheSubdir != "" {
+		// Append `SubdirCache` if necessary
+		if c.SubdirCache != "" {
 			var (
 				configDir string
 				stateDir  string
@@ -206,7 +206,7 @@ func (c *AppConfig) cacheDir(systemWide bool) (cacheDir string, err error) {
 				}
 			}
 			if cacheDir == path.Join(stateDir, subdir) || cacheDir == path.Join(configDir, subdir) {
-				cacheDir = path.Join(cacheDir, c.CacheSubdir)
+				cacheDir = path.Join(cacheDir, c.SubdirCache)
 			}
 		}
 	}

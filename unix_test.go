@@ -13,8 +13,8 @@ import (
 func TestUnixAppDirsSystem(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
@@ -27,8 +27,8 @@ func TestUnixAppDirsSystem(t *testing.T) {
 func TestUnixAppDirsLocal(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(false, config)
 	require.NoError(t, err)
@@ -44,8 +44,8 @@ func TestUnixAppDirsSubdirUnix(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
 		SubdirUnix:  "zoo/zar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)

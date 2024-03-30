@@ -12,8 +12,8 @@ import (
 func TestPlan9AppDirsSystem(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
@@ -26,8 +26,8 @@ func TestPlan9AppDirsSystem(t *testing.T) {
 func TestPlan9AppDirsLocal(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(false, config)
 	require.NoError(t, err)
@@ -43,8 +43,8 @@ func TestPlan9AppDirsSubdirPlan9(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
 		SubdirPlan9: "zoo/zar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)

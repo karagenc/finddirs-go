@@ -14,8 +14,8 @@ func TestWindowsAppDirsSystem(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
 		UseRoaming:  false,
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
@@ -29,8 +29,8 @@ func TestWindowsAppDirsLocal(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
 		UseRoaming:  false,
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(false, config)
 	require.NoError(t, err)
@@ -48,8 +48,8 @@ func TestWindowsAppDirsSubdirWindows(t *testing.T) {
 		Subdir:        "foo/bar",
 		SubdirWindows: "zoo/zar",
 		UseRoaming:    false,
-		StateSubdir:   "state",
-		CacheSubdir:   "cache",
+		SubdirState:   "state",
+		SubdirCache:   "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
@@ -73,8 +73,8 @@ func TestWindowsAppDirsLocalRoaming(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
 		UseRoaming:  true,
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(false, config)
 	require.NoError(t, err)

@@ -12,8 +12,8 @@ import (
 func TestDarwinAppDirsSystem(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
@@ -26,8 +26,8 @@ func TestDarwinAppDirsSystem(t *testing.T) {
 func TestDarwinAppDirsLocal(t *testing.T) {
 	config := &AppConfig{
 		Subdir:      "foo/bar",
-		StateSubdir: "state",
-		CacheSubdir: "cache",
+		SubdirState: "state",
+		SubdirCache: "cache",
 	}
 	d, err := RetrieveAppDirs(false, config)
 	require.NoError(t, err)
@@ -43,8 +43,8 @@ func TestDarwinAppDirsSubdirMacOSIOS(t *testing.T) {
 	config := &AppConfig{
 		Subdir:         "foo/bar",
 		SubdirMacOSIOS: "zoo/zar",
-		StateSubdir:    "state",
-		CacheSubdir:    "cache",
+		SubdirState:    "state",
+		SubdirCache:    "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
