@@ -8,12 +8,12 @@ This is a Go package for retrieving common directories found across all operatin
 
 | Directory                      | Unix [1][2]      | Windows [3]                                | macOS & iOS [5]                 | Plan 9        |
 | ------------------------------ | ---------------- | ------------------------------------------ | ------------------------------- | ------------- |
-| Config directory (system-wide) | `/etc`           | `C:\ProgramData`                           | `/Library/Preferences`          | `/lib`        |
-| Config directory (local)       | `~/.config`      | `C:\<user>\AppData\<Local or Roaming>` [4] | `~/Library/Preferences`         | `~/lib`       |
-| State directory (system-wide)  | `/var/lib`       | `C:\ProgramData`                           | `/Library/Application Support`  | `/lib`        |
-| State directory (local)        | `~/.local/state` | `C:\<user>\AppData\Local`                  | `~/Library/Application Support` | `~/lib`       |
-| Cache directory (system-wide)  | `/var/cache`     | `C:\ProgramData`                           | `/Library/Caches`               | `/lib/cache`  |
-| Cache directory (local)        | `~/.cache`       | `C:\<user>\AppData\Local`                  | `~/Library/Caches`              | `~/lib/cache` |
+| Config directory (system-wide) | `/etc`           | `C:/ProgramData`                           | `/Library/Preferences`          | `/lib`        |
+| Config directory (local)       | `~/.config`      | `C:/<user>/AppData/<Local or Roaming>` [4] | `~/Library/Preferences`         | `~/lib`       |
+| State directory (system-wide)  | `/var/lib`       | `C:/ProgramData`                           | `/Library/Application Support`  | `/lib`        |
+| State directory (local)        | `~/.local/state` | `C:/<user>/AppData/Local`                  | `~/Library/Application Support` | `~/lib`       |
+| Cache directory (system-wide)  | `/var/cache`     | `C:/ProgramData`                           | `/Library/Caches`               | `/lib/cache`  |
+| Cache directory (local)        | `~/.cache`       | `C:/<user>/AppData/Local`                  | `~/Library/Caches`              | `~/lib/cache` |
 
 1. On Unix based systems, XDG environment variables `$XDG_CONFIG_HOME`, `$XDG_STATE_HOME`, and `$XDG_CACHE_HOME` are first tried for paths `~/.config`, `~/.local/state`, and `~/.cache` respectively. If the particular XDG environment variable is set, it is used instead.
 2. If Termux is detected on Android, system-wide directories will be under `~/../usr` (of course, as an absolute path).
