@@ -116,7 +116,7 @@ func publicShareDir() (string, error) {
 	return path.Join(home, "Public"), nil
 }
 
-func (c *AppConfig) subdirPlatformSpecific() string { return c.SubdirMacOSIOS }
+func (c *AppConfig) subdirPlatformSpecific() string { return c.SubdirDarwinIOS }
 
 func (c *AppConfig) configDirSystem() (string, error) {
 	if isIOS {

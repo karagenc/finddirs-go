@@ -7,22 +7,30 @@ import (
 )
 
 type AppConfig struct {
-	// Application directory. If non-empty, appended (path.Join'ed) at the end of returned paths.
+	// Application directory.
+	// If non-empty, it will be appended (path.Join'ed) at the end of returned paths.
 	Subdir string
-
-	// Application directory for macOS and iOS. If non-empty, used instead of `Subdir` on macOS & iOS and appended (path.Join'ed) at the end of returned paths.
-	SubdirMacOSIOS string
-	// Application directory for Windows. If non-empty, used instead of `Subdir` on Windows and appended (path.Join'ed) at the end of returned paths.
-	SubdirWindows string
-	// Application directory for Unix. If non-empty, used instead of `Subdir` on Unix based systems and appended (path.Join'ed) at the end of returned paths.
+	// Application directory for Unix. Overrides `Subdir`.
+	// If non-empty, it will be used instead of `Subdir` on Unix based systems and
+	// appended (path.Join'ed) at the end of returned paths.
 	SubdirUnix string
-	// Application directory for Plan 9. If non-empty, used instead of `Subdir` on Plan 9 and appended (path.Join'ed) at the end of returned paths.
+	// Application directory for macOS and iOS. Overrides `Subdir`.
+	// If non-empty, it will be used instead
+	// of `Subdir` on macOS & iOS and appended (path.Join'ed) at the end of returned paths.
+	SubdirDarwinIOS string
+	// Application directory for Windows. Overrides `Subdir`.
+	// If non-empty, it will be used instead of `Subdir` on Windows and appended (path.Join'ed)
+	// at the end of returned paths.
+	SubdirWindows string
+	// Application directory for Plan 9. Overrides `Subdir`.
+	// If non-empty, it will be used instead of `Subdir` on Plan 9 and appended (path.Join'ed)
+	// at the end of returned paths.
 	SubdirPlan9 string
 
 	// Defines whether config and state directories should be synchronizable across devices.
 	//
 	// If true, instead of %USERPROFILE%\AppData\Local, %USERPROFILE%\AppData\Roaming is used (only with `ConfigDir`).
-	// This doesn't have an effect on other systems.
+	// This doesn't have an effect on other systems and only applies to config directory.
 	//
 	// If you don't know what you're doing, just leave this as false.
 	// This doesn't have an effect if `System` is set to true.

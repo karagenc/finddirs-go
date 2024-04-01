@@ -8,8 +8,8 @@ This is a Go package for retrieving common directories found across all operatin
 
 | Directory                      | Unix [1][2]      | Windows [3]                                | macOS & iOS [5]                 | Plan 9        |
 | ------------------------------ | ---------------- | ------------------------------------------ | ------------------------------- | ------------- |
-| Config directory (system-wide) | `/etc`           | `C:/ProgramData`                           | `/Library/Preferences`          | `/lib`        |
-| Config directory (local)       | `~/.config`      | `C:/<user>/AppData/<Local or Roaming>` [4] | `~/Library/Preferences`         | `~/lib`       |
+| Config directory (system-wide) | `/etc`           | `C:/ProgramData`                           | `/Library/Application Support`  | `/lib`        |
+| Config directory (local)       | `~/.config`      | `C:/<user>/AppData/<Local or Roaming>` [4] | `~/Library/Application Support` | `~/lib`       |
 | State directory (system-wide)  | `/var/lib`       | `C:/ProgramData`                           | `/Library/Application Support`  | `/lib`        |
 | State directory (local)        | `~/.local/state` | `C:/<user>/AppData/Local`                  | `~/Library/Application Support` | `~/lib`       |
 | Cache directory (system-wide)  | `/var/cache`     | `C:/ProgramData`                           | `/Library/Caches`               | `/lib/cache`  |

@@ -39,12 +39,12 @@ func TestDarwinAppDirsLocal(t *testing.T) {
 	require.Equal(t, home+"/Library/Caches/foo/bar", d.CacheDir)
 }
 
-func TestDarwinAppDirsSubdirMacOSIOS(t *testing.T) {
+func TestDarwinAppDirsSubdirDarwinIOS(t *testing.T) {
 	config := &AppConfig{
-		Subdir:         "foo/bar",
-		SubdirMacOSIOS: "zoo/zar",
-		SubdirState:    "state",
-		SubdirCache:    "cache",
+		Subdir:          "foo/bar",
+		SubdirDarwinIOS: "zoo/zar",
+		SubdirState:     "state",
+		SubdirCache:     "cache",
 	}
 	d, err := RetrieveAppDirs(true, config)
 	require.NoError(t, err)
