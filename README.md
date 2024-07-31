@@ -44,7 +44,7 @@ This is a Go package for retrieving common directories found across all operatin
 
 ## Usage
 
-Very straightforward: `go get -u github.com/tomruk/finddirs-go`
+Very straightforward: `go get -u github.com/karagenc/finddirs-go`
 
 ```go
 package main
@@ -52,7 +52,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/tomruk/finddirs-go"
+	"github.com/karagenc/finddirs-go"
 )
 
 func main() {
@@ -75,4 +75,4 @@ func main() {
     - [Apple File System Programming Guide](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html)
     - [Microsoft Documentation on KNOWNFOLDERID constants](https://learn.microsoft.com/en-us/windows/win32/shell/knownfolderid)
 
-- `filepath.ToSlash` was used for every directory returned from functions in this package. This is to prevent [shellwords](https://github.com/mattn/go-shellwords) from interpreting backslash as escape character. To test this behavior, remove [this line](https://github.com/tomruk/kopyaship/blob/460b68628d589c27f7e740f1368c79a8f57a2642/backup/backup_test.go#L164), and see what happens. Use `filepath.FromSlash` to convert slashes to OS-specific path seperators.
+- `filepath.ToSlash` was used for every directory returned from functions in this package. This is to prevent [shellwords](https://github.com/mattn/go-shellwords) from interpreting backslash as escape character. To test this behavior, remove [this line](https://github.com/karagenc/kopyaship/blob/460b68628d589c27f7e740f1368c79a8f57a2642/backup/backup_test.go#L164), and see what happens. Use `filepath.FromSlash` to convert slashes to OS-specific path seperators.

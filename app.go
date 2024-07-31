@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 type AppConfig struct {
@@ -27,7 +28,15 @@ type AppConfig struct {
 	// at the end of returned paths.
 	SubdirPlan9 string
 
-	// Defines whether config and state directories should be synchronizable across devices.
+	// Don't append subdirectory if config path is (or it ends with) /etc on Unix.
+	//
+	// If true, returns /etc instead of /etc/subdir
+	//
+	// Also applies to $XDG_CONFIG_HOME. If the value of $XDG_CONFIG_HOME ends with /etc,
+	// subdirectory will not be appended.
+	NoEtcSubdir bool
+
+	// Defines whether config directory should be synchronizable across devices.
 	//
 	// If true, instead of %USERPROFILE%\AppData\Local, %USERPROFILE%\AppData\Roaming is used (only with `ConfigDir`).
 	// This doesn't have an effect on other systems and only applies to config directory.
@@ -120,9 +129,11 @@ func (c *AppConfig) configDir(systemWide bool) (configDir string, err error) {
 		return
 	}
 
-	subdir := c.subdir()
-	if len(subdir) > 0 {
-		configDir = path.Join(configDir, subdir)
+	if !(c.NoEtcSubdir && strings.HasSuffix(configDir, "/etc")) {
+		subdir := c.subdir()
+		if len(subdir) > 0 {
+			configDir = path.Join(configDir, subdir)
+		}
 	}
 	return filepath.ToSlash(configDir), nil
 }

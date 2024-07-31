@@ -1,4 +1,4 @@
-module github.com/tomruk/finddirs-go
+module github.com/karagenc/finddirs-go
 
 go 1.20
 
